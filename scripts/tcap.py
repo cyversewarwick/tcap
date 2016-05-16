@@ -19,7 +19,7 @@ def parse_args():
 	parser.add_argument('--Input', dest='input', type=argparse.FileType('r'), required=True, help='CSV expression file. Gene names in first column, time points in first row. Single profile (average your replicates).')
 	parser.add_argument('--Pool', dest='pool', type=int, default=1, help='Number of processes to use when precomputing the Qian matrix. Default: 1 (no parallelisation)')
 	parser.add_argument('--Iterations', dest='iters', type=int, default=1000, help='Number of Affinity Propagation steps to take in the clustering. Default: 1000')
-	parser.add_argument('--Converge', dest='conv', type=int, default=1000, help='If the cluster affinity of all genes remains unchanged for this many steps, the clustering is deemed completed ahead of time. Default: 100')
+	parser.add_argument('--Converge', dest='conv', type=int, default=100, help='If the cluster affinity of all genes remains unchanged for this many steps, the clustering is deemed completed ahead of time. Default: 100')
 	parser.add_argument('--Lambda', dest='damp', type=float, default=0.9, help='Dampening of the A and R matrix values to prevent numerical oscillations. Default: 0.9')
 	parser.add_argument('--SelfSim', dest='s', type=float, default=0, help='Self similarity score override in the Qian similarity matrix to prevent degenerate cases. If 0, then set to median of matrix. Default: 0')
 	parser.add_argument('--NoHL', dest='hl', action='store_false', help='Flag. If provided, the centroid expression profile will not be highlighted in red on the plots.')
@@ -136,7 +136,7 @@ def tcap_cluster(data, args):
 	t0 = time.time()
 	psistar = get_psistar(data, args)
 	t1 = time.time()
-	print_time(t0, t1, 'Similarity matrix computation')
+	print_time(t1, t0, 'Similarity matrix computation')
 	#allocate variables
 	sys.stdout.write('Commencing Affinity Propagation clustering...\n')
 	t0 = time.time()
@@ -164,7 +164,7 @@ def tcap_cluster(data, args):
 			counter = 1
 	#do as it says on the tin - return e
 	t1 = time.time()
-	print_time(t0, t1, 'Clustering')
+	print_time(t1, t0, 'Clustering')
 	return e
 
 def make_output(data, e, args):
