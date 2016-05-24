@@ -18,4 +18,4 @@ MAINTAINER Krzysztof Polanski <k.t.polanski@warwick.ac.uk>
 
 # so this is what is going to run by default when you trigger this, in the virtual machine
 # call the wigwams wrapper from the other directory while staying in /agave with the files
-ENTRYPOINT ["bash", "/scripts/tcap_wrapper.sh"]
+ENTRYPOINT ["bash", "/scripts/tcap_tarwrapper.sh"]

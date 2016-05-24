@@ -18,6 +18,10 @@ The output is a list of genes in each cluster, corresponding expression plots (w
 
 TCAP combines two components - an information-rich distance measure and a fitting clustering algorithm which accounts for the nature of the metric. The Qian similarity measure [(Qian et al., 2001)][qian2001] allows for the detection of complicated regulatory patterns, such as time shifts and inversions, capturing a richer regulatory interaction within clusters. However, it comes with the drawback of making it impossible for a clustering algorithm to fall back on a simple measure, such as the mean, to evaluate the information within a cluster and use it to make decisions. Affinity Propagation [(Frey and Dueck, 2007)][frey2007] accounts for the complex nature of the distance metric, and extracts clusters out of a similarity matrix in a quick and effective manner. The end result is a partition of the data, with each gene being assigned to a single cluster.
 
+## Test Run
+
+If you want to get a feel for the input and output formatting of TCAP, you can run the program using a minimal demo dataset provided under `ktpolanski/tcap_testdata/yeast_example_10.csv` in Community Data. You can leave all the parameters as defaults.
+
 ## Input in Detail
 
 ### Expression CSV File
