@@ -7,4 +7,4 @@ python3 /scripts/tcap.py "${@:1}"
 mkdir functional_analysis_inputs
 
 #make bingo/meme output
-python3 bingomeme.py
+python3 /scripts/bingomeme.py
