@@ -17,7 +17,7 @@ import seaborn as sns
 def parse_args():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--Input', dest='input', type=argparse.FileType('r'), required=True, help='CSV expression file. Gene names in first column, time points in first row. Single profile (average your replicates).')
-	parser.add_argument('--Pool', dest='pool', type=int, default=1, help='Number of processes to use when precomputing the Qian matrix. Default: 1 (no parallelisation)')
+	parser.add_argument('--Pool', dest='pool', type=int, default=0, help='Number of processes to use when precomputing the Qian matrix. Default: 0 (automated parallelisation)')
 	parser.add_argument('--Iterations', dest='iters', type=int, default=1000, help='Number of Affinity Propagation steps to take in the clustering. Default: 1000')
 	parser.add_argument('--Converge', dest='conv', type=int, default=100, help='If the cluster affinity of all genes remains unchanged for this many steps, the clustering is deemed completed ahead of time. Default: 100')
 	parser.add_argument('--Lambda', dest='damp', type=float, default=0.9, help='Dampening of the A and R matrix values to prevent numerical oscillations. Default: 0.9')
@@ -212,6 +212,9 @@ def make_output(data, e, args):
 def main():
 	#grab command line arguments
 	args = parse_args()
+	#assess parallelisation
+	if args.pool==0:
+		args.pool=mp.cpu_count()
 	#grab the data and zscore it. this is not a may. this is needed for the Qian
 	#data = pd.read_csv(args.input, header=None, sep='\t')
 	sys.stdout.write('Parsing expression file...\n')

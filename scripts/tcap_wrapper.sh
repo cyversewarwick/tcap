@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 #run TCAP, passing all the arguments
 python3 /scripts/tcap.py "${@:1}"
