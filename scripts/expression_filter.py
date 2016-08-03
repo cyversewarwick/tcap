@@ -2,6 +2,7 @@ import argparse
 import numpy as np
 import pandas as pd
 import sys
+import math
 
 def parse_args():
 	parser = argparse.ArgumentParser()
@@ -14,11 +15,23 @@ def parse_args():
 	args = parser.parse_args()
 	return args
 
+def check_header(header):
+	#for some reason, spacebars get imported as floaty nans because reasons
+	if isinstance(header, float):
+		if math.isnan(header):
+			return True
+	else:
+		#if it's not a floaty nan, proceed as previously
+		if header.upper() in ['TREATMENT','CONDITION','TIME','']:
+			return True
+	#is not header anymore
+	return False
+
 def load_data(args):
 	data = pd.read_csv(args.input,index_col=None,header=None).values
 	headind = []
 	i=0
-	while data[i,0].upper() in ['TREATMENT','CONDITION','TIME','']:
+	while check_header(data[i,0]):
 		headind.append(i)
 		i+=1
 	header = data[headind,:]
@@ -105,6 +118,9 @@ def write_data(data, header):
 	for i in range(header.shape[0]):
 		for j in range(header.shape[1]):
 			header[i,j] = str(header[i,j])
+			#continue empty line thing
+			if header[i,j] == 'nan':
+				header[i,j] = ''
 	#turn expression into strings again
 	for i in range(data.shape[0]):
 		for j in range(1,data.shape[1]):
