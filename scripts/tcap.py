@@ -23,6 +23,7 @@ def parse_args():
 	parser.add_argument('--Lambda', dest='damp', type=float, default=0.9, help='Dampening of the A and R matrix values to prevent numerical oscillations. Default: 0.9')
 	parser.add_argument('--SelfSim', dest='s', type=float, default=0, help='Self similarity score override in the Qian similarity matrix to prevent degenerate cases. If 0, then set to median of matrix. Default: 0')
 	parser.add_argument('--NoHL', dest='hl', action='store_false', help='Flag. If provided, the centroid expression profile will not be highlighted in red on the plots.')
+	parser.add_argument('--GeneList', dest='list', type=argparse.FileType('r'), help='An optional gene list (such as TFs) to highlight in green in the plots. One line per gene identifier.')
 	args = parser.parse_args()
 	return args
 
@@ -174,9 +175,14 @@ def make_output(data, e, args):
 		* data - the parsed CSV file
 		* e - the resulting clustering vector from tcap_cluster()
 		* args - the command line arguments'''
-	#get gene list and time points
-	genes = np.array(data.index)
+	#get gene list and time points, capitalising gene list
+	genes = np.array([x.upper() for x in data.index])
 	tps = np.array([float(x) for x in data.columns])
+	#potentially get highlight gene list
+	if args.list:
+		hl = args.list.readlines()
+		for i in range(len(hl)):
+			hl[i] = hl[i].split()[0].upper()
 	#get centroids
 	centroids = np.unique(e)
 	#set up plot output folder
@@ -191,7 +197,15 @@ def make_output(data, e, args):
 		plt.figure(figsize=(10,6))
 		with sns.axes_style("ticks"):
 			for gene in clusgenes:
-				plt.plot(tps,data.loc[gene,:],color='#03012d',linewidth=1)
+				if args.list:
+					if gene in hl:
+						#highlight (green) plot
+						plt.plot(tps,data.loc[gene,:],color='#5cb200',linewidth=2)
+					else:
+						#normal (black) plot
+						plt.plot(tps,data.loc[gene,:],color='#03012d',linewidth=1)
+				else:
+					plt.plot(tps,data.loc[gene,:],color='#03012d',linewidth=1)
 			if args.hl:
 				centroid = genes[centroids[i]]
 				plt.suptitle('Cluster '+str(i+1)+ ' (Centroid '+centroid+')')
