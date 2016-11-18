@@ -52,6 +52,10 @@ If this many consecutive iterations of the clustering yield the same final group
 
 When computing new affinity propagation matrix values, a safety measure is put in place to avoid numerical oscillations by making the next step's values being a weighted sum of the value at the prior step and the newly computed value. This parameter is the weight given to the previous step's value when computing this sum. Values below 0.5 and above 0.9 are not recommended.
 
+### Highlight Gene List
+
+Given the complex regulatory nature of the TCAP clusters, it may be desired to highlight certain genes (such as transcription factors) in the output for increased ease of result interpretation. Provide a potential gene list with one gene identifier per line, with the gene identifiers matching the ones used in the expression CSV you provided.
+
 ### Highlight Centroids in Cluster Plots
 
 Part of TCAP's output is a set of plots, one for each cluster. Seeing how the Qian similarity measure allows for capturing complex regulatory interactions within a single cluster, highlighting the centroid profile (the one acting as the cluster centre to which all other profiles in the cluster pointed to) can help put the temporal shifts, inversions etc. in some form of context. If checked, the centroid will be plotted in red, and its name will be mentioned in the title of the cluster plot. If unchecked, the centroid will not receive any special treatment and it won't be mentioned in the cluster plot title.
