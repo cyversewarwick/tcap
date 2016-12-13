@@ -20,7 +20,7 @@ TCAP combines two components - an information-rich distance measure and a fittin
 
 ## Test Run
 
-If you want to get a feel for the input and output formatting of TCAP, you can run the program using a minimal demo dataset provided under `cyverseuk/tcap_testdata/yeast_example_10.csv` in Community Data. You can leave all the parameters as defaults.
+If you want to get a feel for the input and output formatting of TCAP, you can run the program using a minimal demo dataset provided under `iplantcollaborative/example_data/cyverseuk/tcap_testdata/yeast_example_10.csv` in Community Data. You can leave all the parameters as defaults.
 
 ## Input in Detail
 
